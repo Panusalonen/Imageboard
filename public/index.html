@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+    <title>I &hearts; IMG</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <iframe id="frame" src="http://free.timeanddate.com/clock/i6ed2l9b/n37/fn15/fcdaa520/tct/pct/pa8/tt0/tw1/th1/ta1/tb4" frameborder="0" width="162" height="48" allowTransparency="true"></iframe>
+
+    <div id="main">
+
+        <image-modal v-if="currentImage" :current-image="currentImage" v-on:close="nullifyCurrentImage">
+        </image-modal>
+
+        <div class="head">
+            <br>
+            <h1>I<div class="heart"></div>IMG</h1>
+        </div>
+
+        <form method="POST" class="form">
+
+            <h2>Upload Your Img</h2>
+            <input v-model="form.title" type="text" class="name" name="title" placeholder="Title">
+            <input v-model="form.description" type="text"  class="name" name="description" placeholder="Description">
+            <input v-model="form.username" type="text"  class="name" name="username" placeholder="Username">
+            <input type="file" accept="image/*">
+            <button v-on:click ="uploadFile">Upload</button>
+
+        </form>
+
+        <div id="gridContainer">
+            <div id="imgbox" v-if="images.length > 0" v-for="image in images">
+                <a class="imglink" :href="'#' + image.id">
+                <img class="img" v-bind:src="image.url"></a>
+                <p><strong>{{image.title}}</strong></p>
+            </div>
+
+            <div id="more-button">
+                <button id="more" @click="loadMore" v-if="!noMorePics">Load More</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script id="tmpl" type="text/template">
+        <div id="modal-behind">
+            <div id="modal-top">
+
+                <p><strong>{{info.title}}</strong></p>
+                <img class="img" v-bind:src="info.url">
+                <p>{{info.name}}</p>
+                <p>{{info.description}}</p>
+                <br>
+
+                <form class="form2">
+                    <input v-model = "form.comment" type="text" name="comment" placeholder="Comment">
+                    <input v-model = "form.username" type="text" name="username" placeholder="Username">
+                    <button v-on:click="addComments" type="submit"> Submit </button>
+                </form>
+                <br>
+
+                <p><strong>Comments</strong></p>
+                <div id="commentBox">
+                    <div v-if="comments.length > 0" v-for="comm in comments">
+                        <p class="p2">{{comm.username}} <span class="p3"> {{comm.created_at}}</span></p>
+                        <p class="p1">{{comm.comment}}</p>
+                    </div>
+                </div>
+
+                <button id="button" @click="closeModal">Close</button>
+
+            </div>
+        </div>
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
